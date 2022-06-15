@@ -1,12 +1,23 @@
 ﻿// game-engine.cpp : Defines the entry point for the application.
 //
 
-#include "game-engine.h"
+#include "game-engine.hpp"
+#include "Game.hpp"
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
-	cout << "Hello CMake." << endl;
+	Game game;
+
+	bool success = game.Initialize();
+
+	if (success)
+	{
+		game.RunLoop();
+	}
+
+	game.Shutdown();
+
 	return 0;
 }
