@@ -15,6 +15,12 @@ public:
     Vector2(const float x, const float y) : x(x), y(y) {}
 
     const static Vector2 GRAVITY;
+    const static Vector2 UP;
+
+    void clear()
+    {
+        x = y = 0;
+    }
 
     void invert()
     {
@@ -28,10 +34,42 @@ public:
         y += vector.y * scale;
     }
 
+    void operator+=(const Vector2& vector)
+    {
+        x += vector.x;
+        y += vector.y;
+    }
+
+    Vector2 operator+(const Vector2& vector) const
+    {
+        return Vector2(x + vector.x, y + vector.y);
+    }
+
+    void operator-=(const Vector2& vector)
+    {
+        x -= vector.x;
+        y -= vector.y;
+    }
+
+    Vector2 operator-(const Vector2& vector) const
+    {
+        return Vector2(x - vector.x, y - vector.y);
+    }
+
     void operator*=(const float value)
     {
         x *= value;
         y *= value;
+    }
+
+    Vector2 operator*(const float value) const
+    {
+        return Vector2(x * value, y * value);
+    }
+
+    float operator*(const Vector2& vector) const
+    {
+        return x * vector.x + y * vector.y;
     }
 };
 

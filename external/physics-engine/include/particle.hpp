@@ -5,6 +5,7 @@
 
 #include "core.hpp"
 #include <assert.h>
+#include <math.h>
 
 class Particle
 {
@@ -33,6 +34,16 @@ public:
         return damping;
     }
 
+    void getAcceleration(Vector2* accPtr) const
+    {
+        *accPtr = acceleration;
+    }
+
+    Vector2 getAcceleration() const
+    {
+        return acceleration;
+    }
+
     void setAcceleration(const Vector2& value)
     {
         acceleration = value;
@@ -49,6 +60,11 @@ public:
         inverseMass = 1.0f / value;
     }
 
+    float getInverseMass() const
+    {
+        return inverseMass;
+    }
+
     void setInverseMass(const float value)
     {
         inverseMass = value;
@@ -63,6 +79,27 @@ public:
     {
         position.x = x;
         position.y = y;
+    }
+
+    void setVelocity(const Vector2& velPtr)
+    {
+        velocity = velPtr;
+    }
+
+    void setVelocity(const float x, const float y, const float z)
+    {
+        velocity.x = x;
+        velocity.y = y;
+    }
+
+    void getVelocity(Vector2* velPtr) const
+    {
+        *velPtr = velocity;
+    }
+
+    Vector2 getVelocity() const
+    {
+        return velocity;
     }
 
     void getPosition(Vector2* positionPtr) const

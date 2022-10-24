@@ -3,8 +3,12 @@
 #ifndef GAME_HPP // include guard
 #define GAME_HPP
 
+#include <vector>
 #include <SDL.h>
+
 #include <particle.hpp>
+#include <pcontactresolver.hpp>
+#include <pcontactgenerator.hpp>
 
 class Game
 {
@@ -27,6 +31,8 @@ private:
 
 	void GenerateOutput();
 
+	unsigned generateContacts();
+
 	SDL_Window* mWindow;
 
 	SDL_Renderer* mRenderer;
@@ -35,7 +41,17 @@ private:
 
 	bool mIsRunning;
 
+	std::vector<Particle*> particles;
+
 	Particle* mCharacter;
+
+	ParticleContactResolver* resolver;
+
+	std::vector<ParticleContactGenerator*> contactGenerators;
+
+	ParticleContact* contacts;
+
+	unsigned maxContacts;
 };
 
 #endif
