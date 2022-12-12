@@ -2,6 +2,10 @@
 #include <particle.hpp>
 #include <groundcontact.hpp>
 
+
+const float Game::WINDOW_WIDTH = 1024.0f;
+const float Game::WINDOW_HEIGHT = 728.0f;
+
 Game::Game() : mWindow(nullptr), mRenderer(nullptr), mTicksCount(0), mIsRunning(true), maxContacts(10) {}
 
 bool Game::Initialize()
@@ -17,7 +21,7 @@ bool Game::Initialize()
 	}
 
 	// Create the window
-	mWindow = SDL_CreateWindow("Game Engine", 100, 100, 1024, 768, 0);
+	mWindow = SDL_CreateWindow("Game Engine", 100, 100, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
 
 	if (!mWindow)
 	{
@@ -38,8 +42,8 @@ bool Game::Initialize()
 
 	mCharacter = new Particle();
 
-	float x = (1024.0f - 100.0f) / 2.0f;
-	float y = (768.0f - 100.0f) / 2.0f;
+	float x = WINDOW_WIDTH / 2.0f;
+	float y = WINDOW_HEIGHT / 2.0f;
 
 	mCharacter->setPosition(x, y);
 	mCharacter->setMass(1.0);
@@ -163,8 +167,8 @@ void Game::GenerateOutput()
 	Vector2 currentPosition = mCharacter->getPosition();
 
 	SDL_Rect character = {
-		static_cast<int>(currentPosition.x - 50),
-		static_cast<int>(currentPosition.y - 50),
+		static_cast<int>(WINDOW_WIDTH - (currentPosition.x + 50)),
+		static_cast<int>(WINDOW_HEIGHT - (currentPosition.y + 50)),
 		100,
 		100,
 	};

@@ -13,6 +13,9 @@
 class Game
 {
 public:
+	const static float WINDOW_WIDTH;
+	const static float WINDOW_HEIGHT;
+
 	Game();
 
 	// Initialize the game
