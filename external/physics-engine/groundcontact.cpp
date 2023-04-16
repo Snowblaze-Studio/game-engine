@@ -13,7 +13,7 @@ unsigned GroundContact::addContact(ParticleContact* contact, unsigned limit) con
         float y = (*p)->getPosition().y;
         if (y < 0.0f)
         {
-            contact->contactNormal = Vector2::UP;
+            contact->contactNormal = Vector3::UP;
             contact->particle[0] = *p;
             contact->particle[1] = NULL;
             contact->penetration = -y;

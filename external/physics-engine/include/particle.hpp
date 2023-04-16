@@ -11,13 +11,13 @@ class Particle
 {
 protected:
     // Holds the position of the particle in world space
-    Vector2 position;
+    Vector3 position;
 
     // Holds the linear velocity of the particle in world space
-    Vector2 velocity;
+    Vector3 velocity;
 
     // Holds the acceleration of the particle
-    Vector2 acceleration;
+    Vector3 acceleration;
 
     float damping;
 
@@ -34,25 +34,26 @@ public:
         return damping;
     }
 
-    void getAcceleration(Vector2* accPtr) const
+    void getAcceleration(Vector3* accPtr) const
     {
         *accPtr = acceleration;
     }
 
-    Vector2 getAcceleration() const
+    Vector3 getAcceleration() const
     {
         return acceleration;
     }
 
-    void setAcceleration(const Vector2& value)
+    void setAcceleration(const Vector3& value)
     {
         acceleration = value;
     }
 
-    void setAcceleration(const float x, const float y)
+    void setAcceleration(const float x, const float y, const float z)
     {
         acceleration.x = x;
         acceleration.y = y;
+        acceleration.z = z;
     }
 
     void setMass(const float value)
@@ -70,18 +71,19 @@ public:
         inverseMass = value;
     }
 
-    void setPosition(const Vector2& value)
+    void setPosition(const Vector3& value)
     {
         position = value;
     }
 
-    void setPosition(const float x, const float y)
+    void setPosition(const float x, const float y, const float z)
     {
         position.x = x;
         position.y = y;
+        position.z = z;
     }
 
-    void setVelocity(const Vector2& velPtr)
+    void setVelocity(const Vector3& velPtr)
     {
         velocity = velPtr;
     }
@@ -90,24 +92,25 @@ public:
     {
         velocity.x = x;
         velocity.y = y;
+        velocity.z = z;
     }
 
-    void getVelocity(Vector2* velPtr) const
+    void getVelocity(Vector3* velPtr) const
     {
         *velPtr = velocity;
     }
 
-    Vector2 getVelocity() const
+    Vector3 getVelocity() const
     {
         return velocity;
     }
 
-    void getPosition(Vector2* positionPtr) const
+    void getPosition(Vector3* positionPtr) const
     {
         *positionPtr = position;
     }
 
-    Vector2 getPosition() const
+    Vector3 getPosition() const
     {
         return position;
     }
@@ -122,7 +125,7 @@ public:
         // Update position
         position.addScaledVector(velocity, deltaTime);
 
-        Vector2 resultingAcceleration = acceleration;
+        Vector3 resultingAcceleration = acceleration;
 
         // Update velocity
         velocity.addScaledVector(resultingAcceleration, deltaTime);

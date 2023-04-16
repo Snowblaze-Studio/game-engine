@@ -8,7 +8,7 @@ void ParticleContact::resolve(float duration)
 
 float ParticleContact::calculateSeparatingVelocity() const
 {
-    Vector2 relativeVelocity = particle[0]->getVelocity();
+    Vector3 relativeVelocity = particle[0]->getVelocity();
     if (particle[1]) relativeVelocity -= particle[1]->getVelocity();
     return relativeVelocity * contactNormal;
 }
@@ -27,7 +27,7 @@ void ParticleContact::resolveVelocity(float duration)
     float newSepVelocity = -separatingVelocity * restitution;
 
     // Take acceleration buildup into account (also solves resting contacts problem)
-    Vector2 accCausedVelocity = particle[0]->getAcceleration();
+    Vector3 accCausedVelocity = particle[0]->getAcceleration();
     if (particle[1]) accCausedVelocity -= particle[1]->getAcceleration();
     float accCausedSepVelocity = accCausedVelocity * contactNormal * duration;
 
@@ -50,7 +50,7 @@ void ParticleContact::resolveVelocity(float duration)
     float impulse = deltaVelocity / totalInverseMass;
 
     // Impulse per unit of inverse mass.
-    Vector2 impulsePerIMass = contactNormal * impulse;
+    Vector3 impulsePerIMass = contactNormal * impulse;
 
     // Apply impulses
     particle[0]->setVelocity(particle[0]->getVelocity() + impulsePerIMass * particle[0]->getInverseMass());
@@ -73,7 +73,7 @@ void ParticleContact::resolveInterpenetration(float duration)
     if (totalInverseMass <= 0) return;
 
     // Movement per unit of inverse mass.
-    Vector2 movePerIMass = contactNormal * (penetration / totalInverseMass);
+    Vector3 movePerIMass = contactNormal * (penetration / totalInverseMass);
 
     // Calculate movement per object.
     particleMovement[0] = movePerIMass * particle[0]->getInverseMass();

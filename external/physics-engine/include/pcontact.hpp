@@ -14,11 +14,11 @@ public:
 
     float restitution;
 
-    Vector2 contactNormal;
+    Vector3 contactNormal;
 
     float penetration;
 
-    Vector2 particleMovement[2];
+    Vector3 particleMovement[2];
 
 protected:
     void resolve(float duration);

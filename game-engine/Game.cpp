@@ -2,7 +2,6 @@
 #include <particle.hpp>
 #include <groundcontact.hpp>
 
-
 const float Game::WINDOW_WIDTH = 1024.0f;
 const float Game::WINDOW_HEIGHT = 728.0f;
 
@@ -44,10 +43,11 @@ bool Game::Initialize()
 
 	float x = WINDOW_WIDTH / 2.0f;
 	float y = WINDOW_HEIGHT / 2.0f;
+	float z = 0.0f;
 
-	mCharacter->setPosition(x, y);
+	mCharacter->setPosition(x, y, z);
 	mCharacter->setMass(1.0);
-	mCharacter->setAcceleration(Vector2::GRAVITY);
+	mCharacter->setAcceleration(Vector3::GRAVITY);
 	mCharacter->setDamping(0.99);
 
 	particles.push_back(mCharacter);
@@ -164,7 +164,7 @@ void Game::GenerateOutput()
 	SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
 
 	// Draw the character
-	Vector2 currentPosition = mCharacter->getPosition();
+	Vector3 currentPosition = mCharacter->getPosition();
 
 	SDL_Rect character = {
 		static_cast<int>(WINDOW_WIDTH - (currentPosition.x + 50)),
