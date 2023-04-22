@@ -36,3 +36,6 @@
 
 # Exclude
 !/external/**/*
+
+# Mac
+.DS_Store
