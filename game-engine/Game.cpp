@@ -151,7 +151,7 @@ void Game::GenerateOutput()
 	SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
 
 	// Draw the character
-	SDL_Rect character{
+	SDL_Rect character = {
 		static_cast<int>(mCharacterPos.x - 50),
 		static_cast<int>(mCharacterPos.y - 50),
 		100,

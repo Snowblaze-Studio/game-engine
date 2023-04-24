@@ -33,6 +33,7 @@
 
 /.vs
 /out
+/build
 
 # Exclude
 !/external/**/*
