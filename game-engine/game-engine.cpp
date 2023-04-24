@@ -4,6 +4,8 @@
 #include "game-engine.hpp"
 #include "Game.hpp"
 
+#undef main
+
 using namespace std;
 
 int main(int argc, char* argv[])
