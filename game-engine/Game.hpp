@@ -4,12 +4,7 @@
 #define GAME_HPP
 
 #include <SDL.h>
-
-struct Vector2
-{
-	float x;
-	float y;
-};
+#include <particle.hpp>
 
 class Game
 {
@@ -40,9 +35,7 @@ private:
 
 	bool mIsRunning;
 
-	Vector2 mMovementDir;
-
-	Vector2 mCharacterPos;
+	Particle* mCharacter;
 };
 
 #endif

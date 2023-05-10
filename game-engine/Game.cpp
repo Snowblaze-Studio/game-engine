@@ -1,6 +1,7 @@
 #include "Game.hpp"
+#include <particle.hpp>
 
-Game::Game() : mWindow(nullptr), mRenderer(nullptr), mTicksCount(0), mIsRunning(true), mMovementDir() {}
+Game::Game() : mWindow(nullptr), mRenderer(nullptr), mTicksCount(0), mIsRunning(true) {}
 
 bool Game::Initialize()
 {
@@ -32,8 +33,15 @@ bool Game::Initialize()
 		return false;
 	}
 
-	mCharacterPos.x = (1024.0f - 100.0f) / 2.0f;
-	mCharacterPos.y = (768.0f - 100.0f) / 2.0f;
+	mCharacter = new Particle();
+
+	float x = (1024.0f - 100.0f) / 2.0f;
+	float y = (768.0f - 100.0f) / 2.0f;
+
+	mCharacter->setPosition(x, y);
+	mCharacter->setMass(1.0);
+	mCharacter->setAcceleration(Vector2::GRAVITY);
+	mCharacter->setDamping(0.99);
 
 	return true;
 }
@@ -79,25 +87,6 @@ void Game::ProcessInput()
 	{
 		mIsRunning = false;
 	}
-
-	mMovementDir.x = 0;
-	mMovementDir.y = 0;
-	if (state[SDL_SCANCODE_W])
-	{
-		mMovementDir.y -= 1;
-	}
-	if (state[SDL_SCANCODE_S])
-	{
-		mMovementDir.y += 1;
-	}
-	if (state[SDL_SCANCODE_A])
-	{
-		mMovementDir.x -= 1;
-	}
-	if (state[SDL_SCANCODE_D])
-	{
-		mMovementDir.x += 1;
-	}
 }
 
 void Game::UpdateGame()
@@ -118,25 +107,7 @@ void Game::UpdateGame()
 		deltaTime = 0.05f;
 	}
 
-	mCharacterPos.y += mMovementDir.y * 300.0f * deltaTime;
-	mCharacterPos.x += mMovementDir.x * 300.0f * deltaTime;
-
-	if (mCharacterPos.y < (100.0f / 2.0f))
-	{
-		mCharacterPos.y = 100.0f / 2.0f;
-	}
-	else if (mCharacterPos.y > (768.0f - 100.0f / 2.0f))
-	{
-		mCharacterPos.y = 768.0f - 100.0f / 2.0f;
-	}
-	if (mCharacterPos.x < (100.0f / 2.0f))
-	{
-		mCharacterPos.x = 100.0f / 2.0f;
-	}
-	else if (mCharacterPos.x > (1024.0f - 100.0f / 2.0f))
-	{
-		mCharacterPos.x = 1024.0f - 100.0f / 2.0f;
-	}
+	mCharacter->integrate(deltaTime);
 }
 
 void Game::GenerateOutput()
@@ -151,9 +122,11 @@ void Game::GenerateOutput()
 	SDL_SetRenderDrawColor(mRenderer, 255, 255, 255, 255);
 
 	// Draw the character
+	Vector2 currentPosition = mCharacter->getPosition();
+
 	SDL_Rect character = {
-		static_cast<int>(mCharacterPos.x - 50),
-		static_cast<int>(mCharacterPos.y - 50),
+		static_cast<int>(currentPosition.x - 50),
+		static_cast<int>(currentPosition.y - 50),
 		100,
 		100,
 	};
