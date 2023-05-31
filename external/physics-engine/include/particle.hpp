@@ -10,13 +10,10 @@
 class Particle
 {
 protected:
-    // Holds the position of the particle in world space
     Vector3 position;
 
-    // Holds the linear velocity of the particle in world space
     Vector3 velocity;
 
-    // Holds the acceleration of the particle
     Vector3 acceleration;
 
     float damping;
