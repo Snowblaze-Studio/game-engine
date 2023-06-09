@@ -125,7 +125,7 @@ public:
 
     void addScaledVector(const Vector3& vector, float scale)
     {
-        Quaternion q(0, vector.x * scale, vector.y * scale, vector.z * scale);
+        Quaternion q(vector.x * scale, vector.y * scale, vector.z * scale, 0);
         q *= *this;
         x += q.x * 0.5f;
         y += q.y * 0.5f;
