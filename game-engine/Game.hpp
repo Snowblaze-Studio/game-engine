@@ -7,6 +7,7 @@
 #include <SDL.h>
 
 #include <particle.hpp>
+#include <rigidbody.hpp>
 #include <pcontactresolver.hpp>
 #include <pcontactgenerator.hpp>
 
@@ -46,7 +47,7 @@ private:
 
 	std::vector<Particle*> particles;
 
-	Particle* mCharacter;
+	RigidBody* mCharacter;
 
 	ParticleContactResolver* resolver;
 

@@ -39,18 +39,22 @@ bool Game::Initialize()
 
 	resolver = new ParticleContactResolver(5);
 
-	mCharacter = new Particle();
+	mCharacter = new RigidBody();
 
 	float x = WINDOW_WIDTH / 2.0f;
 	float y = WINDOW_HEIGHT / 2.0f;
 	float z = 0.0f;
 
 	mCharacter->setPosition(x, y, z);
+	mCharacter->setOrientation(0.0f, 0.0f, 0.0f, 1.0f);
 	mCharacter->setMass(1.0);
 	mCharacter->setAcceleration(Vector3::GRAVITY);
-	mCharacter->setDamping(0.99);
+	mCharacter->setLinearDamping(0.99);
+	mCharacter->setAngularDamping(0.99);
+	mCharacter->setInertiaTensor(Matrix3x3(0.3f * 500.0f, 0, 0, 0, 0.3f * 500.0f, 0, 0, 0, 0.3f * 500.0f));
 
-	particles.push_back(mCharacter);
+	mCharacter->clearAccumulators();
+	mCharacter->calculateDerivedData();
 
 	GroundContact* groundContactGenerator = new GroundContact();
 	groundContactGenerator->init(particles);
@@ -101,6 +105,13 @@ void Game::ProcessInput()
 	if (state[SDL_SCANCODE_ESCAPE])
 	{
 		mIsRunning = false;
+	}
+
+	if (state[SDL_SCANCODE_SPACE])
+	{
+		Vector3 currentPosition = mCharacter->getPosition();
+		Vector3 point = Vector3(currentPosition.x - 50.0f, currentPosition.y - 50.0f, 0.0f);
+		mCharacter->addForceAtPoint(Vector3::UP * 250.0f, point);
 	}
 }
 
@@ -173,6 +184,11 @@ void Game::GenerateOutput()
 		100,
 	};
 	SDL_RenderFillRect(mRenderer, &character);
+
+	SDL_SetRenderDrawColor(mRenderer, 255, 0, 0, 255);
+
+	Vector3 pointWS = mCharacter->getPointInWorldSpace(Vector3(0.0f, 50.0f, 0.0f));
+	SDL_RenderDrawLine(mRenderer, WINDOW_WIDTH - currentPosition.x, WINDOW_HEIGHT - currentPosition.y, WINDOW_WIDTH - pointWS.x, WINDOW_HEIGHT - pointWS.y);
 
 	// Swap the front and back buffers
 	SDL_RenderPresent(mRenderer);

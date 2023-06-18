@@ -142,36 +142,33 @@ public:
 
     void integrate(float deltaTime)
     {
-        // Calculate linear acceleration from force inputs
+        // Calculate linear acceleration
         lastFrameAcceleration = acceleration;
         lastFrameAcceleration.addScaledVector(forceAccum, inverseMass);
 
-        // Calculate angular acceleration from torque inputs
+        // Calculate angular acceleration
         Vector3 angularAcceleration = inverseInertiaTensorWorld.transform(torqueAccum);
 
-        // Adjust velocities
-        // Update linear velocity from both acceleration and impulse
+        // Update linear velocity
         velocity.addScaledVector(lastFrameAcceleration, deltaTime);
 
-        // Update angular velocity from both acceleration and impulse
+        // Update angular velocity
         angularVelocity.addScaledVector(angularAcceleration, deltaTime);
 
         // Impose drag
         velocity *= powf(linearDamping, deltaTime);
         angularVelocity *= powf(angularDamping, deltaTime);
 
-        // Adjust positions
-        // Update linear position
+        // Update position
         position.addScaledVector(velocity, deltaTime);
 
-        // Update angular position
+        // Update orientation
         orientation.addScaledVector(angularVelocity, deltaTime);
 
-        // Normalise the orientation, and update the matrices with the new
-        // position and orientation
+        // Update cached data
         calculateDerivedData();
 
-        // Clear accumulators
+        // Clean up
         clearAccumulators();
     }
 
@@ -285,7 +282,7 @@ public:
         pt -= position;
 
         forceAccum += force;
-        torqueAccum += pt % force;
+        torqueAccum += Vector3::cross(pt, force);
     }
 
     void addForceAtBodyPoint(const Vector3& force, const Vector3& point)
